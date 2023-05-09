@@ -12,11 +12,17 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
+#      - name: Dump GitHub context
+#        id: github_context_step
+#        run: echo '${{ toJSON(github) }}'
       - name: 显示文件内容1
         run: cat pubspec.yaml
+      - name: v
+        id: vvv
+        run: |
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's/^v//')
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
       - name: 显示版本
         run: |
           echo $GITHUB_HEAD_REF
@@ -25,7 +31,7 @@ jobs:
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: ${{ github.head_ref }}
+          value: ${{ steps.vvv.outputs.version }}
           commitChange: false
       - name: 显示文件内容2
         run: cat pubspec.yaml
