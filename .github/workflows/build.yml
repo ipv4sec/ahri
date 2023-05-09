@@ -13,6 +13,8 @@ jobs:
     if: github.event.pull_request.merged == true && ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/tags/' }}
     runs-on: macos-latest
     steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
       - name: 显示文件内容1
         run: cat pubspec.yaml
       - uses: olegtarasov/get-tag@v2.1.2
