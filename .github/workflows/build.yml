@@ -20,7 +20,7 @@ jobs:
       - name: v
         id: vvv
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's/^v//')
+          VERSION=$(echo "${{ github.head_ref }}" | sed -e 's/^v//')
           echo VERSION=$VERSION
           echo "::set-output name=version::$VERSION"
       - name: 显示版本
