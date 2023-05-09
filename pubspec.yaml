@@ -1,0 +1,7 @@
+name: varus
+description: varus
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.1.0+233
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'

@@ -1,0 +1,32 @@
+name: build
+
+on:
+  pull_request:
+    branches: [master]
+    types: [closed]
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/tags/' }}
+    runs-on: macos-latest
+    steps:
+      - name: 显示文件内容1
+        run: cat pubspec.yaml
+      - uses: olegtarasov/get-tag@v2.1.2
+#        id: tagName
+      - name: 显示版本
+        run: |
+          echo $GIT_TAG_NAME
+          echo $GITHUB_HEAD_REF
+      - name: 更新文件内容
+        uses: fjogeleit/yaml-update-action@v0.13.0
+        with:
+          valueFile: 'pubspec.yaml'
+          propertyPath: 'version'
+          value: $GIT_TAG_NAME
+          commitChange: false
+      - name: 显示文件内容2
+        run: cat pubspec.yaml
