@@ -22,7 +22,7 @@ jobs:
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: $GITHUB_HEAD_REF
+          value: ${{ $GITHUB_HEAD_REF }}
           commitChange: false
       - name: 显示文件内容2
         run: cat pubspec.yaml
