@@ -12,26 +12,28 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
-#      - name: Dump GitHub context
-#        id: github_context_step
-#        run: echo '${{ toJSON(github) }}'
-      - name: 显示文件内容1
-        run: cat pubspec.yaml
       - name: v
-        id: vvv
+        id: version
         run: |
           VERSION=$(echo "${{ github.head_ref }}" | sed -e 's/^v//')
           echo VERSION=$VERSION
           echo "::set-output name=version::$VERSION"
-      - name: 显示版本
-        run: |
-          echo $GITHUB_HEAD_REF
       - name: 更新文件内容
         uses: fjogeleit/yaml-update-action@v0.13.0
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: ${{ steps.vvv.outputs.version }}
+          value: ${{ steps.version.outputs.version }}
           commitChange: false
-      - name: 显示文件内容2
-        run: cat pubspec.yaml
+      
+      - name: Get latest tag
+        id: get-latest-tag
+        run: |
+          git fetch --tags
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "::set-output name=tag::$latest_tag"
+
+      - name: Use latest tag
+        run: |
+          echo "Latest tag is ${{ steps.get-latest-tag.outputs.tag }}"
+
