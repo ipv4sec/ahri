@@ -37,9 +37,11 @@ jobs:
         run: |
           git fetch --tags -f
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo "::set-output name=tag::$latest_tag"
+          VERSION=$(echo "$(latest_tag)" | sed -e 's/^v//')
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
 
       - name: Use latest tag
         run: |
-          echo "Latest tag is ${{ steps.get-latest-tag.outputs.tag }}"
+          echo "Latest tag is ${{ steps.get-latest-tag.outputs.VERSION }}"
 
