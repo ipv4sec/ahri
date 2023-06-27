@@ -37,7 +37,7 @@ jobs:
         run: |
           git fetch --tags -f
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          VERSION=$(echo "$(latest_tag)" | sed -e 's/^v//')
+          VERSION=$(echo $latest_tag | sed -e 's/^v//')
           echo VERSION=$VERSION
           echo "::set-output name=version::$VERSION"
 
