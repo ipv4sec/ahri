@@ -2,8 +2,14 @@ name: build
 
 on:
   pull_request:
+#    branches: ["feature/cicd"]
     branches: [master]
     types: [closed]
+  push:
+    tags:
+      - '*'
+    branches:
+      - 'master'
 
 jobs:
   build:
